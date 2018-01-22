@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"> </script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+            <div class="row">
+                    <div class="col-lg-4 col-lg-offset-4" style="margin-top:30%;">
+                        <span>Input values: </span>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="inputTxt"/> 
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" id="calculateBtn">Calculate</button>
+                            </span>
+                        </div>
+                    </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-lg-offset-4">
+                    <div id="source" style="text-align:center;margin:5px;">
+
+                    </div>
+                    <div id="quickSortTxt" style="text-align:center;margin:5px;">
+
+                    </div>
+                    <div id="sortCountTxt" style="text-align:center;margin:5px;">
+
+                    </div>
+                </div>
+            </div>
+    </div>
+    <script>
+        $(function(){
+            var sortCount = 0;
+            $('#calculateBtn').click(function(){
+                let data = $('#inputTxt').val();
+                let array = data.split(' ').map(item=> parseInt(item)).filter(x=>x);
+                if(array.length<1)
+                alert("Wrong input data");
+                $('#source').text("Input Data: "+array);
+
+                quickSort(array, 0, array.length-1)
+                $('#quickSortTxt').text("Sorted Data: "+array);
+                $('#sortCountTxt').text("Sort step count: "+sortCount);
+                sortCount = 0;
+            });
+
+            function quickSort(arr, first, last){
+                let i = first, j = last;
+                let pivot = arr[Math.round((first+last)/2)];
+
+                while(i<=j){
+                    while(arr[i]<pivot && i<last) i=i+1;
+                    while(arr[j]>pivot && i>first) j=j-1;
+                        if(i<=j){
+                            temp = arr[j];
+                            arr[j] = arr[i];
+                            arr[i] = temp;
+                            i=i+1;
+                            j=j-1;
+                            sortCount = sortCount+1;
+                        }
+                        if(i<last) quickSort(arr, i, last);
+                        if(j> first) quickSort(arr,first,j);
+                }
+              
+                return arr;
+            }
+        });
+    </script>
+</body>
+</html>
